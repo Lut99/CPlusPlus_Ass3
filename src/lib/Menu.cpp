@@ -1,10 +1,12 @@
 /* MENU.cpp
  *   by Tim Müller (11774606)
  *
+ * C++ Programmeermethoden - Assignment 3
+ *
  * Created:
  *   23/04/2020, 13:55:13
  * Last edited:
- *   23/04/2020, 21:39:03
+ *   23/04/2020, 22:43:02
  * Auto updated?
  *   Yes
  *

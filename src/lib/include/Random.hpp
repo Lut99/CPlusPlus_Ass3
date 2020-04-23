@@ -1,10 +1,12 @@
 /* RANDOM.hpp
  *   by Tim Müller (11774606)
  *
+ * C++ Programmeermethoden - Assignment 3
+ *
  * Created:
  *   23/04/2020, 12:14:46
  * Last edited:
- *   23/04/2020, 15:48:38
+ *   23/04/2020, 22:43:14
  * Auto updated?
  *   Yes
  *

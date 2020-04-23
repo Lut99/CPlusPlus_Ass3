@@ -1,10 +1,12 @@
 /* PARAMS.hpp
  *   by Tim Müller (11774606)
  *
+ * C++ Programmeermethoden - Assignment 3
+ *
  * Created:
  *   23/04/2020, 20:08:44
  * Last edited:
- *   23/04/2020, 20:57:45
+ *   23/04/2020, 22:42:57
  * Auto updated?
  *   Yes
  *

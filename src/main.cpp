@@ -1,10 +1,12 @@
 /* MAIN.cpp
  *   by Lut99
  *
+ * C++ Programmeermethoden - Assignment 3
+ * 
  * Created:
  *   23/04/2020, 16:16:15
  * Last edited:
- *   23/04/2020, 22:23:06
+ *   23/04/2020, 22:42:50
  * Auto updated?
  *   Yes
  *

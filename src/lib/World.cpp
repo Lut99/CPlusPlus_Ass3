@@ -1,10 +1,12 @@
 /* WORLD.cpp
  *   by Tim Müller (11774606)
  *
+ * C++ Programmeermethoden - Assignment 3
+ *
  * Created:
  *   23/04/2020, 13:05:37
  * Last edited:
- *   23/04/2020, 22:25:14
+ *   23/04/2020, 22:43:07
  * Auto updated?
  *   Yes
  *
