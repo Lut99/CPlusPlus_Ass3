@@ -5,16 +5,21 @@ SRC=src
 LIB=$(SRC)/lib
 BIN=bin
 OBJ=$(BIN)/obj
-TST=tests
-TST_BIN=$(BIN)/tests
 
 GXX_ARGS += -I $(LIB)/include
 
 
-.PHONY: default all run main clean
+.PHONY: default all run main dirs clean
 default: all
 
-$(OBJ)/%.o: $(LIB)/%.cpp
+$(BIN):
+	mkdir -p $(BIN)
+$(OBJ):
+	mkdir -p $(OBJ)
+
+dirs: $(BIN) $(OBJ)
+
+$(OBJ)/%.o: $(LIB)/%.cpp dirs
 	$(GXX) $(GXX_ARGS) -o $@ -c $<
 
 $(BIN)/main.out: $(SRC)/main.cpp $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Params.o $(OBJ)/Random.o
