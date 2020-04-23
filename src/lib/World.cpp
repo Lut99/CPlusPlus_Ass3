@@ -4,7 +4,7 @@
  * Created:
  *   23/04/2020, 13:05:37
  * Last edited:
- *   23/04/2020, 17:52:24
+ *   23/04/2020, 22:25:14
  * Auto updated?
  *   Yes
  *
@@ -45,10 +45,6 @@ World::World() {
     this->viewport_x = -1;
     this->viewport_y = -1;
 
-    this->alive_char = default_alive_char;
-    this->dead_char = default_dead_char;
-    this->border_char = default_border_char;
-
     // Initialize the array
     this->world = new bool[this->width * this->height];
 }
@@ -61,10 +57,6 @@ World::World(size_t width, size_t height) {
     this->viewport_height = default_viewport_height;
     this->viewport_x = -1;
     this->viewport_y = -1;
-
-    this->alive_char = default_alive_char;
-    this->dead_char = default_dead_char;
-    this->border_char = default_border_char;
 
     // Initialize the array
     this->world = new bool[this->width * this->height];
@@ -80,11 +72,6 @@ World::World(const World& other) {
     this->viewport_height = other.viewport_height;
     this->viewport_x = other.viewport_x;
     this->viewport_y = other.viewport_y;
-
-    // Copy the character parameters
-    this->alive_char = default_alive_char;
-    this->dead_char = default_dead_char;
-    this->border_char = default_border_char;
 
     // Copy the world
     this->world = new bool[this->width * this->height];
@@ -103,11 +90,6 @@ World::World(World&& other) {
     this->viewport_height = other.viewport_height;
     this->viewport_x = other.viewport_x;
     this->viewport_y = other.viewport_y;
-
-    // Copy the character parameters
-    this->alive_char = default_alive_char;
-    this->dead_char = default_dead_char;
-    this->border_char = default_border_char;
 
     // Since it's moving, we can steal the other's world class
     this->world = other.world;
@@ -140,8 +122,10 @@ int World::count_neighbours(int x, int y) {
     for (int iy = y_min; iy <= y_max; iy++) {
         for (int ix = x_min; ix <= x_max; ix++) {
             // Exclude the given cell
-            if (ix == x && iy == y) { continue; }
-            count += this->world[iy * this->width + x];
+            if (ix == x && iy == y) {
+                continue;
+            }
+            count += this->world[iy * this->width + ix];
         }
     }
 
@@ -152,6 +136,9 @@ int World::count_neighbours(int x, int y) {
 
 
 void World::simulate() {
+    // Create the board for the next gen
+    bool* world = new bool[this->width * this->height];
+    
     // Loop through all cells
     for (int y = 0; y < this->height; y++) {
         for (int x = 0; x < this->width; x++) {
@@ -162,17 +149,17 @@ void World::simulate() {
             if (this->world[index]) {
                 // This cell is alive, it dies if it hasn't got 2 or 3
                 //   neighbours
-                if (neighbours != 2 && neighbours != 3) {
-                    this->world[index] = false;
-                }
+                world[index] = neighbours == 2 || neighbours == 3;
             } else {
                 // This cell is dead, it becomes alive if it has 3 neighbours
-                if (neighbours == 3) {
-                    this->world[index] = true;
-                }
+                world[index] = neighbours == 3;
             }
         }
     }
+
+    // Swap the new world with the old one
+    delete[] this->world;
+    this->world = world;
 }
 
 
@@ -196,10 +183,19 @@ void World::randomize(Random& rand, float alive_prob) {
 }
 
 void World::insert_pattern(std::istream& in) {
+    // Determine the start position
+    int startx = this->viewport_x;
+    int starty = this->viewport_y;
+
+    if (startx < 0) { startx = 0; }
+    else if (startx >= this->width) { startx = this->width - 1; }
+    if (starty < 0) { starty = 0; }
+    else if (starty >= this->height) { starty = this->height - 1; }
+
     // Read through all characters of the pattern while inserting. Error if the
     //   pattern goes out-of-range.
-    int x = this->viewport_x;
-    int y = this->viewport_y;
+    int x = startx;
+    int y = starty;
     while(true) {
         char c;
         in.get(c);
@@ -214,17 +210,18 @@ void World::insert_pattern(std::istream& in) {
         // Move the index and make sure we are within bounds
         if (c == '\n') {
             y++;
-            x = this->viewport_x;
+            x = startx;
             continue;
-        } else {
-            x++;
         }
         if (x >= this->width || y >= this->height) {
             throw out_of_range("Position (" + to_string(x) + "," + to_string(y) + " is out of range for World with size " + to_string(this->width) + "x" + to_string(this->height));
         }
 
         // Update the cell state
-        this->world[y * this->width + x] = c == '.' || c == ' ';
+        this->world[y * this->width + x] = c != '.' && c != ' ';
+
+        // Update x
+        x++;
     }
 }
 
@@ -241,25 +238,28 @@ int World::move_viewport(int dx, int dy) {
     if (newy < -1) { newy = -1; }
     else if (newy > this->height - this->viewport_height + 1) { newy = this->height - this->viewport_height + 1; }
 
+    // COmpute the difference for pretty printing
+    int d = abs(this->viewport_x - newx) + abs(this->viewport_y - newy);
+
     // Update the viewport values
     this->viewport_x = newx;
     this->viewport_y = newy;
 
-    return abs(this->viewport_x - newx) + abs(this->viewport_y - newy);
+    return d;
 }
 
-std::string World::render() const {
+std::string World::render(Params& params) const {
     // Loop through the particular bit of the board to create the representation
     stringstream sstr;
     for (int y = this->viewport_y; y < this->viewport_y + this->viewport_height; y++) {
         for (int x = this->viewport_x; x < this->viewport_x + this->viewport_width; x++) {
             // Print the correct characters
             if (x < 0 || x >= this->width || y < 0 || y >= this->height) {
-                sstr << this->border_char;
+                sstr << params.border_char;
             } else if (this->world[y * this->width + x]) {
-                sstr << this->alive_char;
+                sstr << params.alive_char;
             } else {
-                sstr << this->dead_char;
+                sstr << params.dead_char;
             }
         }
         sstr << endl;
@@ -296,9 +296,6 @@ void GameOfLife::swap(World& w1, World& w2) {
     swap(w1.viewport_height, w2.viewport_height);
     swap(w1.viewport_x, w2.viewport_x);
     swap(w1.viewport_y, w2.viewport_y);
-    swap(w1.alive_char, w2.alive_char);
-    swap(w1.dead_char, w2.dead_char);
-    swap(w1.border_char, w2.border_char);
 
     // Swap the world pointer
     swap(w1.world, w2.world);

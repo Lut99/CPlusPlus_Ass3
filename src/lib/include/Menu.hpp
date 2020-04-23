@@ -4,7 +4,7 @@
  * Created:
  *   23/04/2020, 13:55:18
  * Last edited:
- *   23/04/2020, 18:22:00
+ *   23/04/2020, 21:32:53
  * Auto updated?
  *   Yes
  *
@@ -19,8 +19,10 @@
 #define MENU_HPP
 
 #include <string>
+#include <vector>
 #include <chrono>
 
+#include "Params.hpp"
 #include "Random.hpp"
 #include "World.hpp"
 
@@ -32,12 +34,8 @@ namespace GameOfLife {
             Random& rand;
             /* Stores the world object used. */
             World& world;
-            /* Specifies the delay (in milliseconds) between two frames in go. */
-            std::chrono::milliseconds fps_delay;
-            /* Specifies the step size (horizontal) of the viewport. */
-            int viewport_stepsize_h;
-            /* Specifies the step size (vectical) of the viewport. */
-            int viewport_stepsize_v;
+            /* Stores the parameters of the menu. */
+            Params params;
 
             /* Renders the simulation */
             std::string render_world();
@@ -49,10 +47,14 @@ namespace GameOfLife {
             std::string render_movemenu();
             /* Renders the parameters menu text. */
             std::string render_parametersmenu();
+            /* Renders the file menu text. */
+            std::string render_filemenu();
 
-            /* Converts a string to its lowercase equivalent. Also removes and preceding, following or double whitespaces. */
-            static void preprocess(std::string& text);
-            /* Splits given input (preprocessed) in a command (first word) and arguments (rest of words). Each word is separated by a space. */
+            /* Removes preceding, following or double whitespaces, but respects quotes. */
+            static std::string cleanup(std::string text);
+            /* Converts to lowercase equivalent. Ignores quotes. */
+            static std::string lowercase(std::string text);
+            /* Splits given input (preprocessed) in a command (first word) and arguments (rest of words). Each word is separated by a space, but respects quotes. */
             static std::string split(std::string text, std::vector<std::string>& args);
         public:
             /* Initializes the Menu class. */

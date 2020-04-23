@@ -4,7 +4,7 @@
  * Created:
  *   23/04/2020, 13:06:03
  * Last edited:
- *   23/04/2020, 17:51:58
+ *   23/04/2020, 20:37:43
  * Auto updated?
  *   Yes
  *
@@ -20,6 +20,7 @@
 #include <cstddef>
 #include <string>
 
+#include "Params.hpp"
 #include "Random.hpp"
 
 namespace GameOfLife {
@@ -39,13 +40,6 @@ namespace GameOfLife {
             int viewport_x;
             /* Top-left y coordinate of the viewport. */
             int viewport_y;
-
-            /* Character representation of a living cell. */
-            char alive_char;
-            /* Character representation of a dead cell. */
-            char dead_char;
-            /* Character representation of any cell outside the simulation. */
-            char border_char;
 
             /* The internal representation of the world in the game of life. */
             bool* world;
@@ -77,7 +71,7 @@ namespace GameOfLife {
             /* Sets the viewport at a certain location. Returns the actual number of cells moved. */
             int move_viewport(int dx, int dy);
             /* Returns a render of the viewport in text. */
-            std::string render() const;
+            std::string render(Params& params) const;
 
             /* Copy assignment operator for the World class. */
             World& operator=(World other);

@@ -17,8 +17,8 @@ default: all
 $(OBJ)/%.o: $(LIB)/%.cpp
 	$(GXX) $(GXX_ARGS) -o $@ -c $<
 
-$(BIN)/main.out: $(SRC)/main.cpp $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Random.o
-	$(GXX) $(GXX_ARGS) -o $@ $< $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Random.o
+$(BIN)/main.out: $(SRC)/main.cpp $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Params.o $(OBJ)/Random.o
+	$(GXX) $(GXX_ARGS) -o $@ $< $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Params.o $(OBJ)/Random.o
 
 $(TST_BIN)/test_random.out: $(TST)/test_random.cpp $(OBJ)/Random.o
 	$(GXX) $(GXX_ARGS) -o $@ $< $(OBJ)/Random.o

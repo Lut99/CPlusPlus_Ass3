@@ -4,7 +4,7 @@
  * Created:
  *   23/04/2020, 16:16:15
  * Last edited:
- *   23/04/2020, 17:51:19
+ *   23/04/2020, 22:23:06
  * Auto updated?
  *   Yes
  *
@@ -25,7 +25,7 @@ using namespace GameOfLife;
 
 int main() {
     Random rand;
-    World world(78, 38);
+    World world;
     Menu menu(rand, world);
 
     return menu.run();
