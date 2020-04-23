@@ -11,7 +11,7 @@ TST_BIN=$(BIN)/tests
 GXX_ARGS += -I $(LIB)/include
 
 
-.PHONY: default all clean main test_random
+.PHONY: default all run main clean
 default: all
 
 $(OBJ)/%.o: $(LIB)/%.cpp
@@ -20,15 +20,12 @@ $(OBJ)/%.o: $(LIB)/%.cpp
 $(BIN)/main.out: $(SRC)/main.cpp $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Params.o $(OBJ)/Random.o
 	$(GXX) $(GXX_ARGS) -o $@ $< $(OBJ)/World.o $(OBJ)/Menu.o $(OBJ)/Params.o $(OBJ)/Random.o
 
-$(TST_BIN)/test_random.out: $(TST)/test_random.cpp $(OBJ)/Random.o
-	$(GXX) $(GXX_ARGS) -o $@ $< $(OBJ)/Random.o
-
 main: $(BIN)/main.out
-test_random: $(TST_BIN)/test_random.out
 
-all: main test_random
+run: main
+	bin/main.out
 
-
+all: main
 clean:
 	rm -f $(BIN)/*.out
 	rm -f $(OBJ)/*.o
