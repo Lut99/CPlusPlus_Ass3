@@ -2,11 +2,12 @@
  *   by Tim Müller (11774606)
  *
  * C++ Programmeermethoden - Assignment 3
+ * Gecompiled met g++ (Ubuntu 5.7.0-3ubuntu1~18.04) op KDE Neon (Ubuntu 18.04)
  *
  * Created:
  *   23/04/2020, 13:55:13
  * Last edited:
- *   23/04/2020, 22:43:02
+ *   23/04/2020, 23:04:22
  * Auto updated?
  *   Yes
  *
@@ -71,6 +72,7 @@ std::string Menu::render_mainmenu() {
 std::string Menu::render_help() {
     stringstream sstr;
     sstr << endl << "This menu is used to control the Game of Life simulation." << endl << endl;
+    sstr << "+ Rest In Peace, John Horton Conway (1937-2020) +" << endl << endl;
     sstr << "Possible options are:" << endl;
 
     // Quit

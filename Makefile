@@ -1,3 +1,8 @@
+# MAKEFILE for C++ ASSIGNMENT 3                                               #
+#   by Tim Müller (11774606)                                                  #
+#                                                                             #
+# g++ (Ubuntu 5.7.0-3ubuntu1~18.04) on KDE Neon (Ubuntu 18.04)                #
+
 GXX=g++
 GXX_ARGS=-O2 -Wall -Wextra
 

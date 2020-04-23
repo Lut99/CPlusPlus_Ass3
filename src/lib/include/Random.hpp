@@ -2,11 +2,12 @@
  *   by Tim Müller (11774606)
  *
  * C++ Programmeermethoden - Assignment 3
+ * Gecompiled met g++ (Ubuntu 5.7.0-3ubuntu1~18.04) op KDE Neon (Ubuntu 18.04)
  *
  * Created:
  *   23/04/2020, 12:14:46
  * Last edited:
- *   23/04/2020, 22:43:14
+ *   23/04/2020, 22:58:46
  * Auto updated?
  *   Yes
  *
